@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+
+<div class="container mt-5" style="max-width:800px">
+    <h1 class="card-title" style="color:white"><i class="far fa-calendar-check"></i> ToDo App</h1>
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" >
+                {% csrf_token %}
+                {{form|crispy}}
+                <button class="btn btn-block btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <div class="card-body">
+            {% for task in taskslist %}
+            <div class="card-body" style="background: linear-gradient(to bottom right, #0099cc 0%, #000066 100%);">
+                <div class="row">
+                    <a class="btn btn-md btn-info" href="{% url 'task_update' task.id%}"><i class="far fa-edit"></i> Update</a>
+                    <a class="btn btn-md btn-danger" href="{% url 'task_delete' task.id %}"><i class="fas fa-trash"></i> Delete</a>
+                    <div class="mt-2 ml-2 pt-1" style="color:white">
+                        {% if task.complete == True %}
+                        <strike><i class="fas fa-check"></i> {{task.title}}</strike>
+                        {% else %}
+                        <strong>{{task.title}}</strong>
+                        {% endif %}
+                    </div>
+                </div>
+            </div><br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+
+
